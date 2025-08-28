@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trashvisor/pages/loginandregister/first_loginandregister.dart';
 import 'package:trashvisor/pages/onboarding/onboarding_template.dart';
 import 'package:trashvisor/pages/onboarding/onboarding_page2.dart';
 
@@ -15,8 +16,7 @@ class OnBoardingPage extends StatelessWidget {
       indicatorIndex: 0,
       indicatorCount: 4, // misal total 4 slide
       onSkip: () {
-        // TODO: ke Home
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomePage()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginRegisterPage())); // Skip to LoginRegisterPage
       },
       onNext: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) => const OnBoardingPage2()));

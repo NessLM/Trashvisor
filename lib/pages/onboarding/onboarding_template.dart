@@ -7,8 +7,8 @@ class OnboardingTemplate extends StatelessWidget {
   final String nextButtonAsset;
   final VoidCallback onNext;
   final VoidCallback onSkip;
-  final int indicatorIndex;   // 0-based
-  final int indicatorCount;   // total slide
+  final int indicatorIndex; // 0-based
+  final int indicatorCount; // total slide
   final String backgroundAsset;
 
   const OnboardingTemplate({
@@ -24,11 +24,14 @@ class OnboardingTemplate extends StatelessWidget {
     this.backgroundAsset = 'assets/images/onboarding/bg_onboarding.png',
   });
 
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    const Color brandDeepGreen = Color(
+      0xFF294B29,
+    ); // warna 'Lewati' yang kamu minta
 
+    // Dots indikator (aktif pakai brandDeepGreen)
     Widget _dots(int current, int total) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +43,9 @@ class OnboardingTemplate extends StatelessWidget {
             width: active ? 24 : 8,
             height: 8,
             decoration: BoxDecoration(
-              color: active ? Color.fromARGB(255, 113, 147, 37).withOpacity(0.3) : Colors.green.withOpacity(0.3),
+              color: active
+                  ? Color.fromARGB(255, 113, 147, 37)
+                  : Colors.green.withOpacity(0.3),
               borderRadius: BorderRadius.circular(4),
             ),
           );
@@ -69,7 +74,10 @@ class OnboardingTemplate extends StatelessWidget {
                     child: const Text(
                       'Lewati',
                       style: TextStyle(
-                        color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 14,
+                        color: brandDeepGreen,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        fontFamily: 'assets/fonts/nunito/nunito-bold.ttf',
                       ),
                     ),
                   ),
@@ -82,7 +90,7 @@ class OnboardingTemplate extends StatelessWidget {
                     child: Image.asset(
                       illustrationAsset,
                       fit: BoxFit.contain,
-                      width: size.width * 0.8,
+                      width: size.width * 0.3,
                     ),
                   ),
                 ),
@@ -92,14 +100,23 @@ class OnboardingTemplate extends StatelessWidget {
                   title,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: brandDeepGreen,
+                    fontFamily: 'assets/fonts/nunito/nunito-extrabold.ttf',
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   description,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, color: Colors.black54, height: 1.5),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black54,
+                    height: 1.5,
+                    fontFamily: 'assets/fonts/roboto/roboto-regular.ttf',
+                  ),
                 ),
                 const SizedBox(height: 36),
                 Align(
@@ -108,7 +125,8 @@ class OnboardingTemplate extends StatelessWidget {
                     onTap: onNext,
                     borderRadius: BorderRadius.circular(40),
                     child: SizedBox(
-                      width: 64, height: 64,
+                      width: 64,
+                      height: 64,
                       child: Image.asset(nextButtonAsset, fit: BoxFit.contain),
                     ),
                   ),
