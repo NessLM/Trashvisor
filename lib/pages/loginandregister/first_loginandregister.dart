@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trashvisor/pages/loginandregister/login.dart' as auth;
 import 'package:trashvisor/pages/loginandregister/register.dart' as reg; // <<< tambah import
+import 'package:camera/camera.dart';
 
 /// =======================================================
 ///  WARNA APLIKASI
@@ -43,7 +44,9 @@ class AppConstants {
 ///  HALAMAN LOGIN / REGISTER (tanpa panel putih)
 /// =======================================================
 class LoginRegisterPage extends StatelessWidget {
-  const LoginRegisterPage({super.key});
+  final List<CameraDescription> cameras;
+
+  const LoginRegisterPage({super.key, required this.cameras});
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +176,7 @@ class LoginRegisterPage extends StatelessWidget {
                             // -------------------------------
                             // TOMBOL AUTH
                             // -------------------------------
-                            const AuthButtons(),
+                            AuthButtons(cameras: cameras),
 
                             const SizedBox(height: AppConstants.spacing24),
                           ],
@@ -249,7 +252,9 @@ class BrandHeader extends StatelessWidget {
 ///  TOMBOL AUTH
 /// =======================================================
 class AuthButtons extends StatelessWidget {
-  const AuthButtons({super.key});
+  final List<CameraDescription> cameras;
+
+  const AuthButtons({super.key, required this.cameras});
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +264,7 @@ class AuthButtons extends StatelessWidget {
           width: double.infinity,
           height: AppConstants.buttonHeight,
           child: ElevatedButton(
-            onPressed: () => NavigationHelper.goToLogin(context),
+            onPressed: () => NavigationHelper.goToLogin(context, cameras),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.green,
               foregroundColor: Colors.white,
@@ -283,7 +288,7 @@ class AuthButtons extends StatelessWidget {
           width: double.infinity,
           height: AppConstants.buttonHeight,
           child: ElevatedButton(
-            onPressed: () => NavigationHelper.goToRegister(context),
+            onPressed: () => NavigationHelper.goToRegister(context, cameras),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.green,
               foregroundColor: Colors.white,
@@ -311,7 +316,7 @@ class AuthButtons extends StatelessWidget {
 ///  NAVIGATION HELPER
 /// =======================================================
 class NavigationHelper {
-  static Future<void> goToLogin(BuildContext context) async {
+  static Future<void> goToLogin(BuildContext context, List<CameraDescription> cameras) async {
     // Pre-cache hero image supaya transisi halus
     try {
       await precacheImage(
@@ -323,13 +328,13 @@ class NavigationHelper {
     if (!context.mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => const auth.LoginPage(),
+        builder: (_) => auth.LoginPage(cameras: cameras),
         settings: const RouteSettings(name: 'LoginPage'),
       ),
     );
   }
 
-  static Future<void> goToRegister(BuildContext context) async {
+  static Future<void> goToRegister(BuildContext context, List<CameraDescription> cameras) async {
     // Pre-cache asset yang sama (dipakai juga di RegisterPage)
     try {
       await precacheImage(
@@ -341,7 +346,7 @@ class NavigationHelper {
     if (!context.mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => const reg.RegisterPage(), // <<< langsung ke RegisterPage
+        builder: (_) => reg.RegisterPage(cameras: cameras), // <<< langsung ke RegisterPage
         settings: const RouteSettings(name: 'RegisterPage'),
       ),
     );

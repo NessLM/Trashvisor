@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:trashvisor/pages/loginandregister/login.dart' show LoginPage;
 
 /// ===================================================================
@@ -167,7 +168,10 @@ class _TopBanner {
 ///  REGISTER PAGE — Opsi B: satu controller banner di-reuse
 /// ===================================================================
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final List<CameraDescription> cameras;
+
+  const RegisterPage({super.key, required this.cameras});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -209,7 +213,7 @@ class _RegisterPageState extends State<RegisterPage>
     _toLogin = TapGestureRecognizer()
       ..onTap = () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const LoginPage()),
+          MaterialPageRoute(builder: (_) => LoginPage(cameras: widget.cameras)),
         );
       };
 
@@ -291,7 +295,7 @@ class _RegisterPageState extends State<RegisterPage>
     if (!_agree)                      { _banner.show(context, 'Harap setujui Ketentuan dan Kebijakan Privasi',
         sideMargin: RegisterDimens.bannerSideMargin, showFor: RegisterDimens.bannerShowTime); return; }
 
-    // TODO: kirim data register ke backend
+    // Kirim data register ke backend
     // (NEW) Simulasi sukses: tampilkan banner hijau lalu pindah ke LoginPage
     _banner.show(
       context,
@@ -305,7 +309,7 @@ class _RegisterPageState extends State<RegisterPage>
     await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const LoginPage()),
+      MaterialPageRoute(builder: (_) => LoginPage(cameras: widget.cameras)),
     );
   }
 
@@ -699,7 +703,6 @@ class _BrandHeader extends StatelessWidget {
   final EdgeInsets textMargin;
 
   const _BrandHeader({
-    super.key,
     this.iconSize = RegisterDimens.brandIcon,
     required this.assetPath,
     required this.text,

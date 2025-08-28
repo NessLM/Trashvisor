@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 class OnboardingTemplate extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+
   final String illustrationAsset;
   final String title;
   final String description;
@@ -13,6 +17,7 @@ class OnboardingTemplate extends StatelessWidget {
 
   const OnboardingTemplate({
     super.key,
+    required this.cameras,
     required this.illustrationAsset,
     required this.title,
     required this.description,
@@ -32,7 +37,7 @@ class OnboardingTemplate extends StatelessWidget {
     ); // warna 'Lewati' yang kamu minta
 
     // Dots indikator (aktif pakai brandDeepGreen)
-    Widget _dots(int current, int total) {
+    Widget dots(int current, int total) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(total, (i) {
@@ -45,7 +50,7 @@ class OnboardingTemplate extends StatelessWidget {
             decoration: BoxDecoration(
               color: active
                   ? Color.fromARGB(255, 113, 147, 37)
-                  : Colors.green.withOpacity(0.3),
+                  : Colors.green.withAlpha((255 * 0.3).round()),
               borderRadius: BorderRadius.circular(4),
             ),
           );
@@ -94,7 +99,7 @@ class OnboardingTemplate extends StatelessWidget {
                     ),
                   ),
                 ),
-                _dots(indicatorIndex, indicatorCount),
+                dots(indicatorIndex, indicatorCount),
                 const SizedBox(height: 24),
                 Text(
                   title,
